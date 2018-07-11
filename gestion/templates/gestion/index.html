@@ -1,0 +1,115 @@
+<!DOCTYPE html> {% load staticfiles %}
+<html lang="es">
+
+<head>
+    <title>BibioGest | Software de Gestión de Bibliotecas</title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="{% static 'gestion/css/materialize.min.css' %}" media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="{% static 'gestion/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'gestion/css/jquery.datetimepicker.min.css' %}">
+    <meta name="robots" content="NONE,NOARCHIVE">
+
+</head>
+
+<body>
+    {% block branding %}
+    <nav class="container-fluid">
+        <div class="nav-wrapper orange" id="site-name">
+
+            <a href="{% url 'listado_libros' %}" class="brand-logo truncate">
+                <small style="margin-left: 20px;">BIBLIOGEST</small>
+            </a>
+
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="{% url 'listado_libros' %}">
+                        <i class="material-icons left">book</i>Catálogo</a>
+                </li>  
+                {% if request.user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'profile' %}"><i class="material-icons left">person</i>Mi Perfil</a>
+                    </li>
+                    <li><a href="{% url 'logout' %}"><i class="material-icons left">close</i>Cerrar Sesión</a></li>              
+                {% else %}
+                    <li><a href="{% url 'login' %}"><i class="material-icons left">person</i>{{user.username}} Iniciar Sesión</a></li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </nav>
+    <ul id="nav-mobile" class="sidenav">
+        <li>
+            <a href="{% url 'listado_libros' %}">Catálogo</a>
+        </li>        
+    </ul>
+    {% endblock %}
+    <main id="content-main" class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="page-footer">
+        <div class="footer-copyright blue">
+            <div class="container">
+                © 2018 BiblioGest | Aplicación de Gestión de Bibliotecas
+                <a class="grey-text text-lighten-4 right" href="#!">Manuel Humanes Cabrera</a>
+            </div>
+        </div>
+    </footer>
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="{% static 'gestion/js/materialize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'gestion/js/jquery.datetimepicker.full.min.js' %}"></script>
+    <script type="text/javascript">
+        // function which will continues processing        
+        var go = function (e, el) {
+            // process href
+            var href = $(el).attr('href');
+            if (href) {
+                window.location = href;
+            }
+
+            // process events
+            var events = $(el).data('events');
+
+            for (prop in events) {
+                if (events.hasOwnProperty(prop)) {
+                    var event = events[prop];
+                    $.each(event, function (idx, handler) {
+                        // do not run for clickFunction
+                        if (ignoredHandler.fn != handler.handler) {
+                            handler.handler.call(el, e);
+                        }
+                    });
+                }
+            }
+        }
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+            $('select').formSelect();
+            $.datetimepicker.setLocale('es');
+            $("#id_diaInicio, #id_diaFin, #id_fechaNacimiento").datetimepicker({
+                // You can put more options here.
+                timepicker: false,
+                format: 'd/m/Y',
+            });
+            $("#id_cierreInscripciones").datetimepicker({
+                // You can put more options here.
+                format: 'd/m/Y H:i'
+
+            });
+            
+            $('.modal').modal();
+        });
+    </script>
+</body>
+
+</html>

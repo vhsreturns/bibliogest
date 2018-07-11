@@ -1,0 +1,70 @@
+{% extends "gestion/index.html" %}
+{% block content %}
+<div class="section">
+    <p>Libros disponibles</p>
+    {% if libros %}
+        {% for libro in libros %}       
+        <div class="card horizontal">
+            <div class="card-image">
+                <img style="width:200px" src="/media/{{libro.imgPortada}}" alt="Imagen de portada">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <span class="card-title">{{libro.titulo}}</span>
+                    <p>{{libro.autor}}</p>
+                    <p><b>Fecha de publicación:</b> {{libro.anoPublicacion}}</p>
+                    <p><b>Sinopsis:</b></p>
+                    <p style="text-align: justify;padding-left: 1em;margin-bottom:0.5em;">
+                        {{libro.sinopsis}}
+                    </p>
+                    <p><b>Valoracion:</b> {{libro.valoracion}}/10</p>
+                </div>
+                <div class="card-action">
+                    <form action="#" method="post">
+                        {% csrf_token %}                        
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'detalle-prestamo' libro.pk %}" class="right btn-flat" >Reservar</a>
+                        {% else %}
+                        <a href="#" class="btn-flat right disabled">Reservar</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>       
+        {% endfor %}
+    {% else %}
+    <p>No existen libros</p>
+    {% endif %}
+
+ {% if is_paginated %}
+<ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="waves-effect">
+        <a href="?page=1">&laquo;</a>
+    </li>
+    <li class="waves-effect">
+        <a href="?page={{ page_obj.previous_page_number }}">
+            <i class="material-icons">chevron_left</i>
+        </a>
+    </li>
+    {% endif %}
+
+    <li class="active blue">
+        <a href="#!">{{ page_obj.number }}</a>
+    </li>
+
+    {% if page_obj.has_next %}
+    <li class="waves-effect">
+        <a href="?page={{ page_obj.next_page_number }}">
+            <i class="material-icons">chevron_right</i>
+        </a>
+    </li>
+    <li class="waves-effect">
+        <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+    </li>
+    {% endif %}
+</ul>
+{% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "gestion/index.html" %} {% block content %}
+
+<div class="section">
+    <div class="row">
+        <div class="col s12 m12 text-left">
+            <h5>Confirmar préstamo</h5>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col">
+            <div class="card horizontal">
+                <div class="card-image">
+                    <img src="/media/{{detalles_prestamo.imgPortada}}" alt="" style="max-width:200px;" class="responsive-img">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <span class="card-title">{{detalles_prestamo.titulo}}</span>
+                        <div class="divider"></div>
+                        <p><b>Autor:</b> {{detalles_prestamo.autor}}</p>
+                        <p><b>Fecha de publicación:</b> {{detalles_prestamo.anoPublicacion}}</p>
+                        <p><b>Sinopsis:</b></p>
+                        <p style="text-align: justify;padding-left: 1em;margin-bottom:0.5em;">
+                            {{detalles_prestamo.sinopsis}}
+                        </p>
+                        <p><b>Valoracion:</b> {{detalles_prestamo.valoracion}}/10</p>                        
+                    </div>
+                    <div class="card-action">
+                    <form action="#" method="post">
+                        {% csrf_token %} 
+                        <select id="lugar" name="lugar">
+                            {% for lugar in lugares %}
+                                <option value="{{lugar.nombre}}">{{lugar.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                        {% if request.user.is_authenticated %}
+                        <button type="submit" class="right btn-flat" >Reservar</button>
+                        {% else %}
+                        <a href="#" class="btn-flat right disabled">Reservar</a>
+                        {% endif %}
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

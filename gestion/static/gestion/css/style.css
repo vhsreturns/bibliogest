@@ -1,0 +1,26 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+label {
+    font-size:1em;
+    color:black;
+}
+table.striped>tbody>tr:nth-child(odd) {
+    background-color: rgba(216, 216, 216, 0.5);
+}
+label[for='id_extracto'], label[for='id_descripcion'] {
+    left: 1.2rem!important;
+}
+label[for='id_extracto']:not(.label-icon).active, label[for='id_descripcion']:not(.label-icon).active {
+    transform: translateY(-20px) scale(0.9);
+}
+.page-footer {
+    padding-top: 0px;
+}
