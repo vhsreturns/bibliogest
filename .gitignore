@@ -3,3 +3,4 @@ biblioGest/__pycache__/*
 gestion/__pycache__/*
 gestion/migrations/*
 media/*
+.vscode
